@@ -1,0 +1,23 @@
+name: ebdocker
+version: 0.0.1
+inherits: wercker-labs/docker
+type: main
+platform: ubuntu@12.04
+description: Wercker box for build docker image, and deploy to ElasticBeanstalk
+keywords:
+    - docker
+    - eb
+    - ElasticBeanstalk
+
+script: |
+    sudo apt-get update -y
+    sudo apt-get upgrade -y
+    sudo apt-get install -y unzip
+
+    wget --quiet https://s3.amazonaws.com/elasticbeanstalk/cli/AWS-ElasticBeanstalk-CLI-2.6.4.zip
+    unzip -qq AWS-ElasticBeanstalk-CLI-2.6.4.zip
+    sudo mkdir -p /usr/local/aws/elasticbeanstalk
+    sudo mv AWS-ElasticBeanstalk-CLI-2.6.4/* /usr/local/aws/elasticbeanstalk/
+    export PATH="/usr/local/aws/elasticbeanstalk/eb/linux/python2.7:$PATH"
+    export AWS_CREDENTIAL_FILE="${HOME}/.elasticbeanstalk/aws_credential_file"
+
